@@ -7,7 +7,7 @@ import com.t2dstudio.springsecure.domain.User;
 
 
 public interface UserService {
-	
+//creating methods for our user	
 User saveUser(User user);
 
 Role saveRole(Role role);

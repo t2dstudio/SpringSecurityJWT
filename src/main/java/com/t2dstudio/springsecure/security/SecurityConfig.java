@@ -26,9 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final UserDetailsService userDetailsService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	//implementation of BCrypt is in Application.java while that of UserDetailService is in UserServiceIm
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+		//userDetailsService here is provided by SpringSecurity
 	}
 
 	@Override
@@ -44,10 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+	
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		
+	public AuthenticationManager authenticationManagerBean() throws Exception {		
 	return super.authenticationManagerBean();	
 	}
 	

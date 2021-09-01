@@ -49,15 +49,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
-		//User from speingsecurity
+		//User from spring security
 		
-		User user = (User) authentication.getPrincipal();
+		User user = (User) authentication.getPrincipal(); //having access to the user
 		//define algorithm
 		Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //the 'secret' in production will be encrypted
 		//your subject can be any unique param like id but here username is also unique
 		String access_token = JWT.create()
 				.withSubject(user.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // add 10minutes to current time
 				.withIssuer(request.getRequestURL().toString())
 				.withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.sign(algorithm);
